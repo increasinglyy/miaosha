@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication(scanBasePackages = {"com.miaoshaproject"} )
-@MapperScan("com.miaoshaproject.miaosha")
+@MapperScan("com.miaoshaproject.miaosha.dao")//扫描mapper
 @RestController
 public class MiaoshaApplication {
     @Autowired
