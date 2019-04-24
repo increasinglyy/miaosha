@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
         return convertFromDataObject(userDO, userPasswordDO);//返回给controller层
     }
 
+    //将UserDO+password 转换为UserModel
     private UserModel convertFromDataObject(UserDO userDo, UserPasswordDO userPasswordDO){
         if (userDo == null){
             return null;
