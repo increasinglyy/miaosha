@@ -1,18 +1,25 @@
 package com.miaoshaproject.miaosha.controller;
 
 import com.miaoshaproject.miaosha.controller.viewobject.UserVO;
+import com.miaoshaproject.miaosha.response.CommonReturnType;
 import com.miaoshaproject.miaosha.service.UserService;
 import com.miaoshaproject.miaosha.service.model.UserModel;
+import error.BussinessException;
+import error.EmBusinessError;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller("user")
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
@@ -20,10 +27,23 @@ public class UserController {
     @RequestMapping("/get")
     @ResponseBody
     //调用service服务获取对应id对象返回给前端
-    public UserVO getUser(@RequestParam(name = "id") Integer id){
+    public CommonReturnType getUser(@RequestParam(name = "id") Integer id) throws BussinessException {
+        //调用service服务获取对应id对象返回给前端
         UserModel userModel = userService.getUserById(id);
-        //将核心领域模型用户对象转化为可供UI使用的viewobject
-        return convertFromModel(userModel);
+
+        //若获取的对应用户信息不存在，抛出异常
+        if (userModel == null){
+            throw new BussinessException(EmBusinessError.USER_NOT_EXIST);
+        }
+        //抛出errCode10002,
+//        userModel=null;
+//        userModel.setEncrptPassword("1");
+
+        //将核心领域模型用户对象转化为可供UI使用的viewobject，减少password等字段
+        UserVO userVO = convertFromModel(userModel);
+
+        //返回userVO ---> 返回通用对象：status & data（两个字段）
+        return CommonReturnType.create(userVO);
     }
 
     //将UserModel转化为UserVO
@@ -35,4 +55,8 @@ public class UserController {
         BeanUtils.copyProperties(userModel, userVO);
         return userVO;
     }
+
+
+
+
 }
