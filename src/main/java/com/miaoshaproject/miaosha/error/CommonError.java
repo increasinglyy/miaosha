@@ -1,4 +1,4 @@
-package error;
+package com.miaoshaproject.miaosha.error;
 
 public interface CommonError {
     public int getErrCode();

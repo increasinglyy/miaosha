@@ -1,4 +1,4 @@
-package error;
+package com.miaoshaproject.miaosha.error;
 
 //包装器业务异常类实现
 public class BussinessException extends Exception implements CommonError {

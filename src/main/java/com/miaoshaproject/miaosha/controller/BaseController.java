@@ -1,10 +1,9 @@
 package com.miaoshaproject.miaosha.controller;
 
 import com.miaoshaproject.miaosha.response.CommonReturnType;
-import error.BussinessException;
-import error.EmBusinessError;
+import com.miaoshaproject.miaosha.error.BussinessException;
+import com.miaoshaproject.miaosha.error.EmBusinessError;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;

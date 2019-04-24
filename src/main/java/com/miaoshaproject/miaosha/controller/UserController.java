@@ -4,18 +4,12 @@ import com.miaoshaproject.miaosha.controller.viewobject.UserVO;
 import com.miaoshaproject.miaosha.response.CommonReturnType;
 import com.miaoshaproject.miaosha.service.UserService;
 import com.miaoshaproject.miaosha.service.model.UserModel;
-import error.BussinessException;
-import error.EmBusinessError;
+import com.miaoshaproject.miaosha.error.BussinessException;
+import com.miaoshaproject.miaosha.error.EmBusinessError;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller("user")
 @RequestMapping("/user")

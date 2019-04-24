@@ -1,4 +1,4 @@
-package error;
+package com.miaoshaproject.miaosha.error;
 
 public enum EmBusinessError implements CommonError {
     //通用的错误类型00001
