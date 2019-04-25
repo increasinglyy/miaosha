@@ -39,7 +39,7 @@
             
             if(telphone == null || telphone == ""){
                 alert("手机号不能为空");
-                // return false;
+                return false;
             }
             $.ajax({
                 // 请求头
@@ -48,6 +48,8 @@
                 url:"http://localhost:8090/user/getotp",
                 data:{
                     "telphone":$("#telphone").val(),
+                    //telphone已经拿到，
+                    //"telphone": telphone,     可以直接这样写
                 },
                 xhrFields:{withCredentials:true},
                 success:function(data){

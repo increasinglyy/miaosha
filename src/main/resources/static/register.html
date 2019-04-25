@@ -67,13 +67,16 @@
     jQuery(document).ready(function(){
 
         //绑定otp的click事件用于像后端发送获取手机验证码请求
-        $("#register").on("click",function(){
+        $("#register").on("click",function(){	//register为button名字
+        	//将界面上的元素拿到javascript里
             var telphone = $("#telphone").val();
 			var otpCode = $("#otpCode").val();
 			var name = $("#name").val();
 			var gender = $("#gender").val();
 			var age = $("#age").val();
 			var password = $("#password").val();
+
+			//校验规则
             if(telphone == null || telphone == ""){
                 alert("手机号不能为空");
             }
@@ -97,7 +100,7 @@
             $.ajax({
                 type:"POST",
                 contentType:"application/x-www-form-urlencoded",
-                url:"http://localhost:8080/user/register",
+                url:"http://localhost:8090/user/register",
                 data:{
 					"telphone": telphone,
 					"otpCode": otpCode,
@@ -107,17 +110,20 @@
 					"password": password
                 },
 
+				//允许跨域授信请求
                 xhrFields:{
 					withCredentials:true
 				},
+
                 success:function(data){
                     if(data.status == "success"){
                         alert("注册成功");
-                        window.location.href("login");
+                        //window.location.href("login");
                     } else {
                         alert("注册失败，原因为" + data.data.errMsg);
                     }
                 },
+				//网络原因会进入
                 error:function(data){
                     alert("otp发送失败，原因为," + data.responseText);
                 }
