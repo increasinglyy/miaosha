@@ -33,6 +33,30 @@ public class UserController extends BaseController {
     private HttpServletRequest httpServletRequest;
 
 
+    //用户登录接口
+    @RequestMapping(value = "login", method = {RequestMethod.POST}, consumes = {CONTENT_TYPE_FORMED})
+    @ResponseBody
+    public CommonReturnType login(@RequestParam(name = "telphone")String telphone,
+                                  @RequestParam(name = "password")String password) throws BussinessException, UnsupportedEncodingException, NoSuchAlgorithmException {
+        //入参校验（手机号密码不能为空）
+        if (org.apache.commons.lang3.StringUtils.isEmpty(telphone)
+                || org.apache.commons.lang3.StringUtils.isEmpty(password)){
+            throw new BussinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "不能为空");
+        }
+
+        //用户登录服务，校验用户登录是否合法
+        UserModel userModel = userService.validateLogin(telphone, this.EncodeByMD5(password));
+
+        //将登陆凭证加入到用户登录成功的session中
+        //如果用户的会话标识中有IS_LOGIN，则表示登录成功
+        this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);//key:IS_LOGIN
+        //将userModel放到对应的session里
+        this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
+
+        //返回前端一个正确的信息
+        return CommonReturnType.create(null);//success
+    }
+
     //用户注册接口
     @RequestMapping(value = "register", method = {RequestMethod.POST}, consumes = {CONTENT_TYPE_FORMED})
     @ResponseBody
