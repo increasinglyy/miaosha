@@ -7,7 +7,7 @@ public class BussinessException extends Exception implements CommonError {
 
     //直接接收EmBusinessError的传参用于构造业务异常
     public BussinessException(CommonError commonError){
-        super();
+        super();//继承异常类
         this.commonError = commonError;
     }
 

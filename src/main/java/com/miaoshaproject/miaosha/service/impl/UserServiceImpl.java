@@ -8,6 +8,8 @@ import com.miaoshaproject.miaosha.error.BussinessException;
 import com.miaoshaproject.miaosha.error.EmBusinessError;
 import com.miaoshaproject.miaosha.service.UserService;
 import com.miaoshaproject.miaosha.service.model.UserModel;
+import com.miaoshaproject.miaosha.validator.ValidationResult;
+import com.miaoshaproject.miaosha.validator.ValidatorImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ public class UserServiceImpl implements UserService {
     private UserDOMapper userDOMapper;
     @Autowired
     private UserPasswordDOMapper userPasswordDOMapper;
+    @Autowired
+    private ValidatorImpl validator;
 
     @Override
     //调用userdomaper获取对应的用户dataobject
@@ -44,11 +48,17 @@ public class UserServiceImpl implements UserService {
             throw new BussinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
         }
         //判空
-        if (StringUtils.isEmpty(userModel.getName())
-            || userModel.getGender() == null
-            || userModel.getAge() == null
-            || StringUtils.isEmpty(userModel.getTelphone())){
-            throw new BussinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
+//        if (StringUtils.isEmpty(userModel.getName())
+//            || userModel.getGender() == null
+//            || userModel.getAge() == null
+//            || StringUtils.isEmpty(userModel.getTelphone())){
+//            throw new BussinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
+//        }
+
+        //优化校验
+        ValidationResult result = validator.validate(userModel);
+        if (result.isHasErrors()){
+            throw new BussinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, result.getErrMsg());
         }
 
         //注册用户

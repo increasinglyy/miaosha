@@ -22,7 +22,7 @@ import java.util.Random;
 
 @Controller("user")
 @RequestMapping("/user")
-@CrossOrigin(allowCredentials = "true", allowedHeaders = "*")
+@CrossOrigin(allowCredentials = "true", allowedHeaders = "*")//跨域请求
 public class UserController extends BaseController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class UserController extends BaseController {
 
     //接入HttpSession,httpServletRequest通过bean的方式注入
     @Autowired
-    private HttpServletRequest httpServletRequest;
+    private HttpServletRequest httpServletRequest;//HttpServletRequest对象代表客户端的请求
 
 
     //用户登录接口
@@ -122,7 +122,6 @@ public class UserController extends BaseController {
     @ResponseBody
     //调用service服务获取对应id对象返回给前端
     public CommonReturnType getUser(@RequestParam(name = "id") Integer id) throws BussinessException {
-        //调用service服务获取对应id对象返回给前端
         UserModel userModel = userService.getUserById(id);
 
         //若获取的对应用户信息不存在，抛出异常
@@ -140,7 +139,7 @@ public class UserController extends BaseController {
         return CommonReturnType.create(userVO);
     }
 
-    //将UserModel转化为UserVO
+    //将UserModel转化为UserVO，供前端可视化
     private UserVO convertFromModel(UserModel userModel){
         if (userModel == null){
             return null;

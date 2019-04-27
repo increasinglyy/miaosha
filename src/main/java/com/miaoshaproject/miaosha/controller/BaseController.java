@@ -25,7 +25,7 @@ public class BaseController {
     public Object handlerException(HttpServletRequest request, Exception ex){
         Map<String, Object> responseData = new HashMap<>();
         if (ex instanceof BussinessException){
-            //把异常强转为bussinessException
+            //把其他异常强转为bussinessException
             BussinessException bussinessException = (BussinessException)ex;
 
             responseData.put("errCode", bussinessException.getErrCode());
