@@ -40,12 +40,12 @@
 
         <!--生成对应表及类名-->
         <!--domainObjectName映射成java类的对象-->
-        <table tableName="user_info" domainObjectName="UserDO" enableCountByExample="false"
-                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-                selectByExampleQueryId="false"></table>
-        <table tableName="user_password" domainObjectName="UserPasswordDO" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
+        <!--<table tableName="user_info" domainObjectName="UserDO" enableCountByExample="false"-->
+                <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+                <!--selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="user_password" domainObjectName="UserPasswordDO" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false"></table>-->
 
         <!--<table tableName="item" domainObjectName="ItemDO" enableCountByExample="false"-->
                <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
