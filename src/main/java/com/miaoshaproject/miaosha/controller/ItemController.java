@@ -40,7 +40,7 @@ public class ItemController extends BaseController {
         itemModel.setImgUrl(imgUrl);
         itemModel.setTitle(title);
 
-        ItemModel itemModelForReturn = itemService.createItem(itemModel);
+        ItemModel itemModelForReturn = itemService.createItem(itemModel);//多了从DO中得到的id
         ItemVO itemVO = convertVOFromModel(itemModelForReturn);
 
         return CommonReturnType.create(itemVO);
@@ -55,7 +55,7 @@ public class ItemController extends BaseController {
         return CommonReturnType.create(itemVO);
     }
 
-    //商品详情页的浏览
+    //商品列表页的浏览
     @RequestMapping(value = "/list", method = {RequestMethod.GET})
     @ResponseBody
     public CommonReturnType listItem(){

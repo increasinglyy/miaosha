@@ -54,6 +54,12 @@
         </div>
     </div>
 
+    <div class="form-actions">
+        <button id="createorder" type="submit">
+            下单
+        </button>
+    </div>
+
 </div>
 </body>
 
@@ -62,6 +68,37 @@
     var g_itemVO = {};
 
     $(document).ready(function() {
+        //下单
+        $("#createorder").on("click",function () {
+            $.ajax({
+                type: "POST",
+                contentType: "application/x-www-form-urlencoded",
+                url: "http://localhost:8090/order/createorder",
+                data: {
+                    "itemId":g_itemVO.id,
+                    "amount":1
+                },
+                xhrFields:{
+                    withCredentials:true
+                },
+                success: function(data) {
+                    if (data.status == "success") {
+                        alert("下单成功");
+                        //刷新一下对应的界面，可以看到销量和对应库存变化
+                        window.location.reload();
+                    } else {
+                        //让前端感知对应的错误码
+                        alert("下单失败，原因为" + data.data.errMsg + data.data.errCode);
+                        if (data.data.errCode == 20003) {
+                            window.location.href = "login.html";
+                        }
+                    }
+                },
+                error: function(data) {
+                    alert("下单失败，原因为" + data.responseText);
+                }
+            });
+        })
 
         //获取商品详情
         $.ajax({

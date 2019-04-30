@@ -106,6 +106,29 @@ public class ItemServiceImpl implements ItemService {
         return itemModel;
     }
 
+
+    //下单减库存
+    @Override
+    @Transactional
+    public boolean decreaseStock(Integer itemId, Integer amount) {
+        int affectedRow = itemStockDOMapper.decreaseStock(itemId, amount);
+        if (affectedRow > 0){
+            //更新库存成功
+            return true;
+        }else {
+            //更新库存失败
+            return false;
+        }
+    }
+
+    //落单成功，销量增加
+    @Override
+    @Transactional
+    public void increaseSales(Integer itemId, Integer amount) throws BussinessException {
+        itemDOMapper.increaseSales(itemId, amount);
+
+    }
+
     //将dataobject转化成model
     private ItemModel convertModelFromDataObject(ItemDO itemDO, ItemStockDO itemStockDO){
         ItemModel itemModel = new ItemModel();
