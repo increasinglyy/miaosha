@@ -7,7 +7,9 @@ import com.miaoshaproject.miaosha.dataobject.ItemStockDO;
 import com.miaoshaproject.miaosha.error.BussinessException;
 import com.miaoshaproject.miaosha.error.EmBusinessError;
 import com.miaoshaproject.miaosha.service.ItemService;
+import com.miaoshaproject.miaosha.service.PromoService;
 import com.miaoshaproject.miaosha.service.model.ItemModel;
+import com.miaoshaproject.miaosha.service.model.PromoModel;
 import com.miaoshaproject.miaosha.validator.ValidationResult;
 import com.miaoshaproject.miaosha.validator.ValidatorImpl;
 import org.springframework.beans.BeanUtils;
@@ -29,6 +31,9 @@ public class ItemServiceImpl implements ItemService {
     private ItemDOMapper itemDOMapper;//数据库操作
     @Autowired
     private ItemStockDOMapper itemStockDOMapper;
+
+    @Autowired
+    private PromoService promoService;
 
 
     //将model转化为dataobject
@@ -102,6 +107,13 @@ public class ItemServiceImpl implements ItemService {
 
         //将dataobject转化成model
         ItemModel itemModel = convertModelFromDataObject(itemDO, itemStockDO);
+
+        //获取活动商品信息（判断对应的商品是否存在于秒杀活动内）
+        PromoModel promoModel = promoService.getPromoById(id);
+        if (promoModel != null && promoModel.getStatus() != 3){
+            itemModel.setPromoModel(promoModel);
+        }
+
 
         return itemModel;
     }

@@ -41,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     //amount为购买数量
-    public OrderModel createOrder(Integer userId, Integer itemId, Integer amount) throws BussinessException {
+    public OrderModel createOrder(Integer userId, Integer itemId, Integer promoId, Integer amount) throws BussinessException {
         //1.校验下单状态（用户是否合法，下单商品是否存在，购买数量是否正确）
         ItemModel itemModel = itemService.getItemById(itemId);
         if (itemModel == null){
@@ -53,6 +53,17 @@ public class OrderServiceImpl implements OrderService {
         }
         if (amount <= 0 || amount >100){
             throw new BussinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "数量信息不正确");
+        }
+
+        //校验活动信息
+        if (promoId != null){
+            // (1) 校验对应活动是否存在对应商品
+            if (promoId.intValue() != itemModel.getPromoModel().getId()){
+                throw new BussinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "活动信息不正确");
+            } else if (itemModel.getPromoModel().getStatus().intValue() != 2){
+                // (2)校验活动是否在进行中
+                throw new BussinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "活动还未开始");
+            }
         }
 
 
@@ -67,8 +78,14 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setItemId(itemId);
         orderModel.setUserId(userId);
         orderModel.setAmount(amount);
-        orderModel.setItemPrice(itemModel.getPrice());
-        orderModel.setOrderPrice(itemModel.getPrice().multiply(new BigDecimal(amount)));//总金额
+        if (promoId != null){
+            orderModel.setItemPrice(itemModel.getPromoModel().getPromoItemPrice());
+        } else {
+            orderModel.setItemPrice(itemModel.getPrice());
+        }
+
+        orderModel.setPromoId(promoId);
+        orderModel.setOrderPrice(orderModel.getItemPrice().multiply(new BigDecimal(amount)));//总金额
 
 
         orderModel.setId(generateOrderNo());//生成交易流水号，订单号
