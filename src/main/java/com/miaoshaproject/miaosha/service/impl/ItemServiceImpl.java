@@ -110,7 +110,7 @@ public class ItemServiceImpl implements ItemService {
 
         //获取活动商品信息（判断对应的商品是否存在于秒杀活动内）
         PromoModel promoModel = promoService.getPromoById(id);
-        if (promoModel != null && promoModel.getStatus() != 3){
+        if (promoModel != null && promoModel.getStatus() != 3){ //不等于3表示，当前或者未来该商品有活动
             itemModel.setPromoModel(promoModel);
         }
 

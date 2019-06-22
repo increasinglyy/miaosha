@@ -44,7 +44,7 @@ public class UserController extends BaseController {
             throw new BussinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "不能为空");
         }
 
-        //用户登录服务，校验用户登录是否合法
+        //用户登录服务，校验用户登录是否合法。将手机号和加密后的密码传到Service层
         UserModel userModel = userService.validateLogin(telphone, this.EncodeByMD5(password));
 
         //将登陆凭证加入到用户登录成功的session中
@@ -53,7 +53,7 @@ public class UserController extends BaseController {
         //将userModel放到对应的session里
         this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
 
-        //返回前端一个正确的信息
+        //返回前端一个正确的信息(通用对象）
         return CommonReturnType.create(null);//success
     }
 
@@ -67,8 +67,8 @@ public class UserController extends BaseController {
                                      @RequestParam(name = "age")Integer age,
                                      @RequestParam(name = "password")String password) throws BussinessException, UnsupportedEncodingException, NoSuchAlgorithmException {
         //验证手机号和对应的otpcode相符合（otpcode放在httpServletRequest）
-        String inSessionOtpCode = (String)this.httpServletRequest.getSession().getAttribute(telphone);
-        if (!StringUtils.equals(otpCode, inSessionOtpCode)){
+        String inSessionOtpCode = (String)this.httpServletRequest.getSession().getAttribute(telphone);//获取otpcode
+        if (!StringUtils.equals(otpCode, inSessionOtpCode)){    //与前端传上来的otpCode进行对比
             throw new BussinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "短信验证码不符合");
         }
 

@@ -87,8 +87,9 @@ public class UserServiceImpl implements UserService {
         if (userDO == null){
             throw new BussinessException(EmBusinessError.USER_LOGIN_FAIL);
         }
+        //再通过用户信息(id)，到用户密码表中 拿到用户密码信息
         UserPasswordDO userPasswordDO = userPasswordDOMapper.selectByUserId(userDO.getId());
-        UserModel userModel = convertFromDataObject(userDO, userPasswordDO);
+        UserModel userModel = convertFromDataObject(userDO, userPasswordDO);    //组装成UserModel
 
 
         //比对用户信息内加密的密码是否和传输进来的密码匹配

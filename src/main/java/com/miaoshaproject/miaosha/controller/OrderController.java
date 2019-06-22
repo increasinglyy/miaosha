@@ -41,6 +41,7 @@ public class OrderController extends BaseController {
         if (isLogin == null || !isLogin.booleanValue()){
             throw new BussinessException(EmBusinessError.USER_NOT_LOGIN, "用户还未登录，请登录后下单");
         }
+        //登录时，将userModel放到Attribute="LOGIN_USER"对应的session里
         UserModel userModel = (UserModel) httpServletRequest.getSession().getAttribute("LOGIN_USER");
 
         //下单
