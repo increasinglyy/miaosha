@@ -19,25 +19,25 @@ public class BaseController {
 
 
     //定义exceptionhandler解决未被controller层吸收的exception
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public Object handlerException(HttpServletRequest request, Exception ex){
-        Map<String, Object> responseData = new HashMap<>();
-        if (ex instanceof BussinessException){
-            //把其他异常强转为bussinessException
-            BussinessException bussinessException = (BussinessException)ex;
-
-            responseData.put("errCode", bussinessException.getErrCode());
-            responseData.put("errMsg", bussinessException.getErrMsg());
-        }else {
-            responseData.put("errCode", EmBusinessError.UNKNOW_ERROR.getErrCode());
-            responseData.put("errMsg", EmBusinessError.UNKNOW_ERROR.getErrMsg());
-        }
-
-//        CommonReturnType commonReturnType = new CommonReturnType();
-//        commonReturnType.setStatus("fail");
-//        commonReturnType.setData(responseData);
-        return CommonReturnType.create(responseData, "fail");
-    }
+//    @ExceptionHandler(Exception.class)
+//    @ResponseStatus(HttpStatus.OK)
+//    @ResponseBody
+//    public Object handlerException(HttpServletRequest request, Exception ex){
+//        Map<String, Object> responseData = new HashMap<>();
+//        if (ex instanceof BussinessException){
+//            //把其他异常强转为bussinessException
+//            BussinessException bussinessException = (BussinessException)ex;
+//
+//            responseData.put("errCode", bussinessException.getErrCode());
+//            responseData.put("errMsg", bussinessException.getErrMsg());
+//        }else {
+//            responseData.put("errCode", EmBusinessError.UNKNOW_ERROR.getErrCode());
+//            responseData.put("errMsg", EmBusinessError.UNKNOW_ERROR.getErrMsg());
+//        }
+//
+////        CommonReturnType commonReturnType = new CommonReturnType();
+////        commonReturnType.setStatus("fail");
+////        commonReturnType.setData(responseData);
+//        return CommonReturnType.create(responseData, "fail");
+//    }
 }
